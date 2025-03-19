@@ -41,7 +41,6 @@ def assess_callibration(dataframe,human_column,cluster_column,reference_column):
     for val in cluster_vals:
         clean_train_data = train_dataframe[train_dataframe[cluster_column]==val][[reference_column, human_column]].dropna()
         clean_test_data = test_dataframe[test_dataframe[cluster_column]==val][[reference_column, human_column]].dropna()
-        print("On val {}".format(val))
         avg_acc += len(clean_test_data)/len(test_dataframe)*compute_accuracy_cluster(clean_train_data,clean_test_data,human_column,reference_column)
 
     return avg_acc
