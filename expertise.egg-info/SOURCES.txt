@@ -1,0 +1,7 @@
+README.md
+setup.py
+expertise/__init__.py
+expertise.egg-info/PKG-INFO
+expertise.egg-info/SOURCES.txt
+expertise.egg-info/dependency_links.txt
+expertise.egg-info/top_level.txt
