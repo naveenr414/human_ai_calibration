@@ -1,11 +1,12 @@
 import expertise.LSBoost as LSBoost
 
 from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import AdaBoostRegressor
 import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
 
-def train_boosted(x_train,y_train,x_test,max_depth):
+def train_boosted(x_train,y_train,x_test,max_depth,global_gamma=0.01):
     """Train a boosted Decision Tree using x_train and y_train values
     
     Arguments:
@@ -18,7 +19,6 @@ def train_boosted(x_train,y_train,x_test,max_depth):
     T = 100
     num_bins = 10
     min_group_size = 5
-    global_gamma = .01
     weak_learner = DecisionTreeRegressor(max_depth=max_depth)
     bin_type = 'default'
     learning_rate = 1
@@ -40,6 +40,23 @@ def train_boosted(x_train,y_train,x_test,max_depth):
     LSBoostReg.fit(x_train.values, y_train.values)
     
     return LSBoostReg.predict(x_test.values)
+
+def train_adaboost(x_train,y_train,x_test,max_depth):
+    """Train a boosted Decision Tree using x_train and y_train values
+    
+    Arguments:
+        x_train: DataFrame of training points
+        y_train: Labels for each training point
+        max_depth: Integer, maximum depth of the DecisionTree
+    
+    Returns: List of [0,1] predictions from the LSBoost object"""
+
+    weak_learner = DecisionTreeRegressor(max_depth=max_depth)
+    model = AdaBoostRegressor(base_estimator=weak_learner, n_estimators=50)
+    model.fit(x_train.values, y_train.values)
+
+    return model.predict(x_test.values)
+
 
 def train_regression_tree(x_train,y_train,x_test,random_state):
     """Get predictions for a regression tree
