@@ -31,9 +31,6 @@ def generate_side_information_data(train_N,test_N,x_d,side_d,true_predictor_weig
         human_predictor: None by default, but can be a list of size x_d+side_d+1"""
 
 
-    train_N = 1000
-    test_N = 100
-    d = 1
     X_train = np.random.random((train_N,x_d))
     X_test = np.random.random((test_N,x_d))
 

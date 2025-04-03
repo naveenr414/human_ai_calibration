@@ -105,7 +105,7 @@ def get_diff(X,y,model_1,human_preds,epsilon,y_hat_low,y_hat_high,greater,model_
         y_pred = human_preds+patches[1]
     return np.mean(y[valid_points])-np.mean(y_pred[valid_points])
 
-def compute_train_patches(X_train,human_train,y_train,f_hat,epsilon,T,y_divisions,m = 10):
+def compute_train_patches(X_train,human_train,y_train,f_hat,epsilon,alpha,y_divisions,m = 10):
     """Run the reconcile procedure over a training dataset to learn patches
     
     Arguments:
@@ -121,7 +121,7 @@ def compute_train_patches(X_train,human_train,y_train,f_hat,epsilon,T,y_division
     
     patches = np.array([[0.0 for i in range(len(X_train))] for j in range(2)])
 
-    for i in range(T):
+    while compute_disagreement(X_train,f_hat,human_train,epsilon,patches) > alpha:
         all_vals = []
         corresponding_pairs = [(g,i,y[0],y[1]) for g in [True,False] for i in [0,1] for y in y_divisions]
         for greater in [True,False]:
